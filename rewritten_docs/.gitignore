@@ -1,0 +1,25 @@
+# Quarkdown output files
+output/
+*.html
+*.pdf
+*.tex
+
+# Temporary files
+.tmp/
+*.tmp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

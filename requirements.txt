@@ -1,0 +1,55 @@
+# Quarkdown MCP Server - Core Dependencies (v1.1)
+# 核心依赖 - 运行 MCP 服务器所需的最小依赖
+
+# MCP SDK - Model Context Protocol Python SDK
+mcp>=1.0.0
+
+# 核心运行时依赖 - Core Runtime Dependencies
+# 临时目录管理和文件操作
+tempfile  # 内置模块，用于临时目录管理
+# subprocess  # 内置模块，用于 Quarkdown JAR 执行
+# json  # 内置模块，用于配置和数据处理
+# re  # 内置模块，用于语法验证和错误解析
+
+# Python 兼容性支持
+pathlib2>=2.3.0; python_version<'3.4'
+typing-extensions>=4.0.0; python_version<'3.8'
+
+# 可选开发依赖
+# Optional development dependencies
+# 安装方式：pip install -r requirements.txt -r requirements-dev.txt
+# 或使用：pip install -e ".[dev]"
+
+# 测试框架 - Testing Framework
+# pytest>=7.0.0
+# pytest-asyncio>=0.21.0  # 异步测试支持
+# pytest-cov>=4.0.0       # 代码覆盖率
+# pytest-mock>=3.10.0     # Mock 支持
+
+# 代码格式化和检查 - Code Formatting and Linting
+# black>=23.0.0            # 代码格式化
+# isort>=5.12.0            # 导入排序
+# flake8>=6.0.0            # 代码风格检查
+# mypy>=1.0.0              # 类型检查
+# pre-commit>=3.0.0        # Git 钩子
+
+# 性能监控 - Performance Monitoring
+# psutil>=5.9.0            # 系统资源监控
+# aiofiles>=23.0.0         # 异步文件操作
+
+# 文档生成 - Documentation
+# sphinx>=6.0.0            # 文档生成
+# sphinx-rtd-theme>=1.2.0  # ReadTheDocs 主题
+
+# 安全扫描 - Security Scanning
+# bandit>=1.7.0            # 安全漏洞扫描
+# safety>=2.3.0            # 依赖安全检查
+
+# 注意事项 - Notes:
+# 1. 核心依赖已足够运行 MCP 服务器（v1.1 改进版本）
+# 2. 开发依赖被注释以减少安装时间和依赖冲突
+# 3. 根据需要取消注释相应的开发工具
+# 4. 建议在虚拟环境中安装所有依赖
+# 5. v1.1 改进包括：增强语法验证、命令行兼容性修正、错误处理改进
+# 6. 确保 Java 11+ 已安装并设置 QUARKDOWN_JAR_PATH 环境变量
+# 7. 新增的 strict_mode 语法验证需要正确的 Quarkdown 语法支持

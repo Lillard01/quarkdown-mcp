@@ -1,0 +1,54 @@
+# Quarkdown MCP Server - Development Dependencies
+# 开发依赖 - 用于开发、测试和代码质量保证
+
+# 安装方式：
+# pip install -r requirements.txt -r requirements-dev.txt
+# 或者：pip install -e ".[dev]"
+
+# 测试框架 - Testing Framework
+pytest>=7.0.0
+pytest-asyncio>=0.21.0  # 异步测试支持
+pytest-cov>=4.0.0       # 代码覆盖率
+pytest-mock>=3.10.0     # Mock 支持
+pytest-xdist>=3.2.0     # 并行测试
+
+# 代码格式化和检查 - Code Formatting and Linting
+black>=23.0.0            # 代码格式化
+isort>=5.12.0            # 导入排序
+flake8>=6.0.0            # 代码风格检查
+mypy>=1.0.0              # 类型检查
+pre-commit>=3.0.0        # Git 钩子
+autoflake>=2.0.0         # 自动删除未使用的导入
+
+# 性能监控 - Performance Monitoring
+psutil>=5.9.0            # 系统资源监控
+aiofiles>=23.0.0         # 异步文件操作
+memory-profiler>=0.60.0  # 内存分析
+
+# 文档生成 - Documentation
+sphinx>=6.0.0            # 文档生成
+sphinx-rtd-theme>=1.2.0  # ReadTheDocs 主题
+sphinx-autodoc-typehints>=1.22.0  # 类型提示文档
+
+# 安全扫描 - Security Scanning
+bandit>=1.7.0            # 安全漏洞扫描
+safety>=2.3.0            # 依赖安全检查
+
+# 调试工具 - Debugging Tools
+ipdb>=0.13.0             # 增强的调试器
+rich>=13.0.0             # 美化终端输出
+
+# 构建工具 - Build Tools
+build>=0.10.0            # 现代 Python 包构建
+twine>=4.0.0             # PyPI 上传工具
+wheel>=0.40.0            # Wheel 包格式支持
+
+# 代码复杂度分析 - Code Complexity Analysis
+radon>=6.0.0             # 代码复杂度分析
+xenon>=0.9.0             # 复杂度监控
+
+# 注意事项 - Notes:
+# 1. 这些依赖仅用于开发环境
+# 2. 生产环境只需要 requirements.txt 中的核心依赖
+# 3. 可以根据项目需要选择性安装部分工具
+# 4. 建议使用虚拟环境隔离开发依赖

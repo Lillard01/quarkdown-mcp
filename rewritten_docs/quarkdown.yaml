@@ -1,0 +1,18 @@
+# Quarkdown Project Configuration
+project:
+  name: quarkdown-mcp-record
+  template: article
+  
+output:
+  directory: output
+  formats:
+    - html
+    - pdf
+    
+build:
+  source_directory: src
+  assets_directory: assets
+  
+settings:
+  pretty_output: true
+  wrap_output: true

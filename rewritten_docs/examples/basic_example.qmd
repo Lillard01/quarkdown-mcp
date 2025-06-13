@@ -1,0 +1,40 @@
+---
+title: Basic Quarkdown Example
+author: Example Author
+---
+
+# Basic Quarkdown Features
+
+## Text Formatting
+
+You can use **bold**, *italic*, and `code` formatting.
+
+## Lists
+
+- Item 1
+- Item 2
+  - Nested item
+  - Another nested item
+
+## Code Blocks
+
+```python
+def hello_world():
+    print("Hello, Quarkdown!")
+```
+
+## Mathematics
+
+Inline math: $E = mc^2$
+
+Block math:
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+
+## Tables
+
+| Column 1 | Column 2 | Column 3 |
+|----------|----------|----------|
+| Data 1   | Data 2   | Data 3   |
+| Data 4   | Data 5   | Data 6   |
