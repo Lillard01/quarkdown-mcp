@@ -168,6 +168,10 @@ output/
 preview/
 .quarkdown/
 
+# Project specific folders
+record/
+test/
+
 # Test data
 test_data/
 demo/
