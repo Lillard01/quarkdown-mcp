@@ -85,7 +85,7 @@ pre-commit install
 
 ```bash
 # 必需：Quarkdown JAR 文件路径（使用实际的绝对路径）
-export QUARKDOWN_JAR_PATH="/Users/wangdada/Downloads/mcp/quarkdown-mcp/quarkdown/build/libs/quarkdown.jar"
+export QUARKDOWN_JAR_PATH="/path/to/quarkdown-mcp/quarkdown/build/libs/quarkdown.jar"
 
 # 可选：处理临时目录
 export QUARKDOWN_TEMP_DIR="/tmp/quarkdown"
@@ -104,9 +104,9 @@ export QUARKDOWN_LOG_LEVEL="INFO"
     "quarkdown": {
       "command": "python",
       "args": ["-m", "quarkdown_mcp.server"],
-      "cwd": "/Users/wangdada/Downloads/mcp/quarkdown-mcp/src",
+      "cwd": "/path/to/quarkdown-mcp/src",
       "env": {
-        "QUARKDOWN_JAR_PATH": "/Users/wangdada/Downloads/mcp/quarkdown-mcp/quarkdown/build/libs/quarkdown.jar"
+        "QUARKDOWN_JAR_PATH": "/path/to/quarkdown-mcp/quarkdown/build/libs/quarkdown.jar"
       }
     }
   }
@@ -128,7 +128,7 @@ quarkdown-mcp/quarkdown/build/libs/quarkdown.jar
 
 ```bash
 # 进入源代码目录
-cd /Users/wangdada/Downloads/mcp/quarkdown-mcp/src
+cd /path/to/quarkdown-mcp/src
 
 # 以模块方式运行服务器
 python -m quarkdown_mcp.server
@@ -398,7 +398,7 @@ pip install dist/quarkdown_mcp-*.whl
    
 4. **找不到 JAR 文件**
    - **问题**: `QUARKDOWN_JAR_PATH` 环境变量未设置或路径错误
-   - **解决方案**: 设置正确的绝对路径：`/Users/wangdada/Downloads/mcp/quarkdown-mcp/quarkdown/build/libs/quarkdown.jar`
+   - **解决方案**: 设置正确的绝对路径：`/path/to/quarkdown-mcp/quarkdown/build/libs/quarkdown.jar`
    
 5. **权限错误**
    - **问题**: 临时目录权限不足

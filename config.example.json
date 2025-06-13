@@ -1,13 +1,13 @@
 {
   "mcpServers": {
     "quarkdown": {
-      "command": "/Users/wangdada/Downloads/mcp/quarkdown-mcp/venv/bin/python",
+      "command": "/path/to/quarkdown-mcp/venv/bin/python",
       "args": [
         "-m",
         "quarkdown_mcp.server"
       ],
       "env": {
-        "QUARKDOWN_JAR_PATH": "/Users/wangdada/Downloads/mcp/quarkdown-mcp/quarkdown/build/libs/quarkdown.jar",
+        "QUARKDOWN_JAR_PATH": "/path/to/quarkdown-mcp/quarkdown/build/libs/quarkdown.jar",
         "QUARKDOWN_TEMP_DIR": "/tmp/quarkdown",
         "QUARKDOWN_LOG_LEVEL": "INFO"
       }
