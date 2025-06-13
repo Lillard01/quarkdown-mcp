@@ -104,20 +104,14 @@ class PreviewServerTool(BaseTool):
                 port = await self._find_available_port(port)
                 
             # Start the preview server
-            server_process = await self.wrapper.start_preview_server(
-                source_file=source_file,
-                port=port,
-                auto_reload=auto_reload,
-                theme=theme,
-                watch_files=watch_files
+            server_result = await self.wrapper.start_preview_server(
+                content=source_content,
+                port=port
             )
             
-            # Wait a moment for server to start
-            await asyncio.sleep(2)
-            
             # Check if server started successfully
-            if server_process and server_process.poll() is None:
-                server_url = f"http://localhost:{port}"
+            if server_result.get("success"):
+                server_url = server_result.get("url", f"http://localhost:{port}")
                 
                 # Optionally open browser
                 if open_browser:
@@ -133,8 +127,7 @@ class PreviewServerTool(BaseTool):
                         f"- **Port**: {port}\n"
                         f"- **Auto-reload**: {'Enabled' if auto_reload else 'Disabled'}\n"
                         f"- **Theme**: {theme}\n"
-                        f"- **Source file**: {source_file}\n"
-                        f"- **Process ID**: {server_process.pid}"
+                        f"- **Source content**: Provided content"
                     )
                 ]
                 
@@ -145,24 +138,13 @@ class PreviewServerTool(BaseTool):
                         f"**Watching additional files**:\n{watch_info}"
                     ))
                     
-                # Add usage instructions
-                instructions = self._generate_usage_instructions(server_url, temp_dir)
-                response_parts.append(self._create_text_content(
-                    f"**Usage Instructions**:\n{instructions}"
-                ))
-                
-                # Add server management commands
-                management_info = self._generate_management_info(server_process.pid)
-                response_parts.append(self._create_text_content(
-                    f"**Server Management**:\n{management_info}"
-                ))
-                
                 return response_parts
-                
             else:
-                return [self._create_error_content(
-                    "Failed to start preview server. Check if the port is available and try again."
-                )]
+                return [
+                    self._create_error_content(
+                        f"Failed to start preview server: {server_result.get('error', 'Unknown error')}"
+                    )
+                ]
                 
         except Exception as e:
             return [self._create_error_content(f"Error starting preview server: {str(e)}")]
