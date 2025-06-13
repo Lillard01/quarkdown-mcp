@@ -1,4 +1,4 @@
-# Quarkdown MCP Server - Core Dependencies (v1.1)
+# Quarkdown MCP Server - Core Dependencies (v1.1.1)
 # 核心依赖 - 运行 MCP 服务器所需的最小依赖
 
 # MCP SDK - Model Context Protocol Python SDK
@@ -50,6 +50,6 @@ typing-extensions>=4.0.0; python_version<'3.8'
 # 2. 开发依赖被注释以减少安装时间和依赖冲突
 # 3. 根据需要取消注释相应的开发工具
 # 4. 建议在虚拟环境中安装所有依赖
-# 5. v1.1 改进包括：增强语法验证、命令行兼容性修正、错误处理改进
+# 5. v1.1.1 改进包括：文件结构整理、README 更新、依赖说明优化
 # 6. 确保 Java 11+ 已安装并设置 QUARKDOWN_JAR_PATH 环境变量
 # 7. 新增的 strict_mode 语法验证需要正确的 Quarkdown 语法支持

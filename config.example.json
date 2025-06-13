@@ -1,15 +1,15 @@
 {
   "mcpServers": {
     "quarkdown": {
-      "command": "/path/to/quarkdown-mcp/venv/bin/python",
+      "command": "/path/to/your/project/venv/bin/python", // 修改为你的虚拟环境 Python 解释器路径
       "args": [
         "-m",
         "quarkdown_mcp.server"
       ],
       "env": {
-        "QUARKDOWN_JAR_PATH": "/path/to/quarkdown-mcp/quarkdown/build/libs/quarkdown.jar",
-        "QUARKDOWN_TEMP_DIR": "/tmp/quarkdown",
-        "QUARKDOWN_LOG_LEVEL": "INFO"
+        "QUARKDOWN_JAR_PATH": "/path/to/your/project/quarkdown-mcp/quarkdown/build/libs/quarkdown.jar", // 修改为你的 Quarkdown JAR 绝对路径
+        "QUARKDOWN_TEMP_DIR": "/tmp/quarkdown", // 可选，临时文件目录
+        "QUARKDOWN_LOG_LEVEL": "INFO" // 可选，日志级别 (DEBUG, INFO, WARNING, ERROR)
       }
     }
   }

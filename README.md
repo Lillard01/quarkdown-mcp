@@ -138,7 +138,7 @@ python -m quarkdown_mcp.server
 
 ```bash
 # 运行配置测试脚本
-python test_server_config.py
+python tests/test_server_config.py
 ```
 
 ### 文档编译
@@ -282,25 +282,50 @@ result = await mcp_client.call_tool("convert_batch", {
 
 ```
 quarkdown-mcp/
-├── src/quarkdown_mcp/
-│   ├── __init__.py
-│   ├── server.py              # 主 MCP 服务器
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── config.py          # 配置管理
-│   │   └── wrapper.py         # Quarkdown JAR 包装器
-│   └── tools/
+├── .github/                  # GitHub Actions 工作流程
+│   └── workflows/
+│       └── ci.yml
+├── .gitignore
+├── LICENSE
+├── README.md                 # 本文件
+├── config.example.json       # MCP 服务器配置文件示例
+├── pyproject.toml            # 项目构建和依赖管理 (PEP 517/518)
+├── quarkdown/                # Quarkdown JAR 包及其相关文件 (子模块或直接包含)
+├── requirements-dev.txt      # 开发环境额外依赖
+├── requirements.txt          # 核心依赖
+├── rewritten_docs/           # (可能是文档重写或示例输出目录)
+├── scripts/                  # 辅助脚本 (如开发、测试运行器)
+│   ├── dev.py
+│   └── test_runner.py
+├── setup.cfg                 # setuptools 配置文件 (部分项目可能仍在使用)
+├── setup.py                  # setuptools 构建脚本 (如果 pyproject.toml 不完整或用于旧版兼容)
+├── src/                      # 主要源代码
+│   └── quarkdown_mcp/
 │       ├── __init__.py
-│       ├── base.py            # 基础工具类
-│       ├── compile.py         # 文档编译
-│       ├── create_project.py  # 项目创建
-│       ├── validate.py        # 语法验证
-│       ├── preview.py         # 预览服务器
-│       └── batch.py           # 批量处理
-├── tests/                     # 测试套件
-├── quarkdown/                 # Quarkdown JAR 分发
-├── pyproject.toml            # 项目配置
-└── README.md                 # 本文件
+│       ├── core/               # 核心逻辑 (配置、JAR 包装器等)
+│       │   ├── __init__.py
+│       │   ├── config.py
+│       │   └── wrapper.py
+│       ├── server.py           # MCP 服务器主入口
+│       └── tools/              # MCP 工具实现
+│           ├── __init__.py
+│           ├── base.py
+│           ├── batch.py
+│           ├── compile.py
+│           ├── create_project.py
+│           ├── preview.py
+│           └── validate.py
+├── record/
+│   └── record.md             # 项目改进和测试记录
+├── tests/                    # 测试脚本
+│   ├── check_mcp.py
+│   ├── final_test.py
+│   ├── functional_test.py
+│   ├── quick_test.py
+│   ├── test_import.py
+│   ├── test_improvements.py
+│   └── test_server_config.py
+└── test_document.qmd         # Quarkdown 测试文档示例
 ```
 
 ### 核心组件
@@ -501,4 +526,4 @@ python -m quarkdown_mcp.server
 - 🐛 [问题跟踪](https://github.com/quarkdown/quarkdown-mcp/issues)
 - 💬 [讨论](https://github.com/quarkdown/quarkdown-mcp/discussions)
 - 📧 [邮件支持](mailto:support@quarkdown-mcp.org)
-- 📁 [改进记录](record/IMPROVEMENTS_RECORD.md)
+- 📁 [改进记录](record/record.md)

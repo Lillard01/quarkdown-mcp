@@ -201,48 +201,7 @@ class QuarkdownWrapper:
         
         return errors, warnings
     
-    async def start_preview_server(self, 
-                                 document_path: Path,
-                                 port: int = 8080) -> Dict[str, Any]:
-        """Start a preview server for a Quarkdown document.
-        
-        Args:
-            document_path: Path to the source document
-            port: Port number for the server
-            
-        Returns:
-            Dictionary containing success status, URL, port, and error information
-        """
-        args = ["start", "--file", str(document_path), "--port", str(port)]
-        
-        try:
-            stdout, stderr, return_code = await self._execute_command(args)
-            
-            if return_code == 0:
-                server_url = f"http://localhost:{port}"
-                return {
-                    "success": True,
-                    "url": server_url,
-                    "port": port,
-                    "error": None
-                }
-            else:
-                error_msg = stderr or stdout or "Unknown error"
-                return {
-                    "success": False,
-                    "url": None,
-                    "port": port,
-                    "error": error_msg
-                }
-                
-        except Exception as e:
-            logger.error(f"Error starting preview server: {e}")
-            return {
-                "success": False,
-                "url": None,
-                "port": port,
-                "error": str(e)
-            }
+
             
     async def create_project(self, 
                            project_path: str,
@@ -662,55 +621,126 @@ class QuarkdownWrapper:
             
 
             
-    async def start_preview_server(
-        self,
-        content: str,
-        port: int = 8080,
-        host: str = "localhost"
-    ) -> Dict[str, Any]:
+    async def start_preview_server(self, *args, **kwargs) -> Dict[str, Any]:
         """Start a preview server for the document.
         
+        This method implements the complete compile-then-serve workflow:
+        1. Compile the Quarkdown source to HTML
+        2. Start a local web server to serve the compiled content
+        
         Args:
-            content: Document content
-            port: Server port
-            host: Server host
+            content: Document content (Quarkdown source)
+            port: Server port (default: 8080)
+            host: Server host (default: localhost)
+            open_browser: Whether to open browser automatically (default: False)
             
         Returns:
-            Dictionary with server information
+            Dictionary with server information and status
         """
+        # Extract parameters from args and kwargs
+        content = kwargs.get('content') or (args[0] if len(args) > 0 else None)
+        port = kwargs.get('port', 8080)
+        host = kwargs.get('host', 'localhost')
+        open_browser = kwargs.get('open_browser', False)
+        
+        if not content:
+            return {
+                "success": False,
+                "error": "No content provided for preview",
+                "exception_type": "ValueError"
+            }
+        
         try:
-            # Create temporary input file
+            # Step 1: Create temporary input file
             input_file = self.config.create_temp_file(suffix=".qmd")
             input_file.write_text(content, encoding=self.config.encoding)
             self._temp_files.append(input_file)
             
-            args = [
+            # Step 2: Create temporary output directory
+            output_dir = self.config.create_temp_dir(prefix="quarkdown_preview_")
+            self._temp_files.append(output_dir)
+            
+            # Step 3: Compile the document to HTML
+            compile_args = [
+                "compile",
+                "--input", str(input_file),
+                "--output", str(output_dir),
+                "--renderer", "html",
+                "--pretty"
+            ]
+            
+            logger.debug(f"Compiling document with args: {compile_args}")
+            stdout, stderr, return_code = await self._execute_command(compile_args)
+            
+            if return_code != 0:
+                error_msg = stderr or stdout or "Failed to compile document"
+                logger.error(f"Compilation failed: {error_msg}")
+                return {
+                    "success": False,
+                    "error": f"Compilation failed: {error_msg}",
+                    "return_code": return_code
+                }
+            
+            # Step 4: Start the web server to serve the compiled content
+            server_args = [
                 "start",
-                "--file", str(input_file),
+                "--file", str(output_dir),
                 "--port", str(port)
             ]
             
-            stdout, stderr, return_code = await self._safe_execute_command(args)
+            if open_browser:
+                server_args.append("--open")
             
-            if return_code == 0:
-                return {
-                    "success": True,
-                    "url": f"http://{host}:{port}",
-                    "port": port,
-                    "host": host
-                }
-            else:
-                error_msg = stderr or stdout or "Failed to start preview server"
+            logger.debug(f"Starting server with args: {server_args}")
+            
+            # Start the server in non-blocking mode
+            java_command = self.config.get_java_command()
+            process = await asyncio.create_subprocess_exec(
+                *java_command,
+                *server_args,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+                cwd=Path(self.config.temp_dir).parent
+            )
+            
+            # Wait a moment to check if server started successfully
+            await asyncio.sleep(2)
+            
+            if process.returncode is not None:
+                # Process has already terminated
+                stdout, stderr = await process.communicate()
+                error_msg = stderr.decode() or stdout.decode() or "Server failed to start"
                 return {
                     "success": False,
-                    "error": error_msg
+                    "error": error_msg,
+                    "return_code": process.returncode
                 }
+            
+            # Server appears to be running
+            server_url = f"http://{host}:{port}"
+            
+            return {
+                "success": True,
+                "url": server_url,
+                "port": port,
+                "host": host,
+                "message": "Preview server started successfully",
+                "compiled_output": str(output_dir),
+                "process_id": process.pid,
+                "instructions": [
+                    f"Preview server is running at {server_url}",
+                    "The server will continue running in the background",
+                    "To stop the server, you may need to kill the process manually",
+                    f"Compiled files are available in: {output_dir}"
+                ]
+            }
                 
         except Exception as e:
             logger.error(f"Error starting preview server: {e}")
             return {
                 "success": False,
-                "error": str(e)
+                "error": str(e),
+                "exception_type": type(e).__name__
             }
     
     async def get_available_formats(self) -> List[str]:
