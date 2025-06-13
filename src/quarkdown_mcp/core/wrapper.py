@@ -213,7 +213,7 @@ class QuarkdownWrapper:
         Returns:
             Dictionary containing success status, URL, port, and error information
         """
-        args = ["start", str(document_path), "--port", str(port)]
+        args = ["start", "--file", str(document_path), "--port", str(port)]
         
         try:
             stdout, stderr, return_code = await self._execute_command(args)
@@ -685,10 +685,9 @@ class QuarkdownWrapper:
             self._temp_files.append(input_file)
             
             args = [
-                "preview",
-                str(input_file),
-                "--port", str(port),
-                "--host", host
+                "start",
+                "--file", str(input_file),
+                "--port", str(port)
             ]
             
             stdout, stderr, return_code = await self._safe_execute_command(args)
